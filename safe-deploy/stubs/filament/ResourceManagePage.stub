@@ -1,0 +1,11 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ resource }};
+use SafeDeploy\Filament\Pages\ManageSimpleResource;
+
+class {{ resourcePageClass }} extends ManageSimpleResource
+{
+    protected static string $resource = {{ resourceClass }}::class;
+}

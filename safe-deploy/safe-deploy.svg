@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Camada_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 200 200">
+  <!-- Generator: Adobe Illustrator 29.3.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 151)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #adadad;
+      }
+
+      .st1 {
+        fill: #175ea9;
+      }
+
+      .st2 {
+        fill: #fff;
+      }
+
+      .st3 {
+        fill: #1a3861;
+      }
+    </style>
+  </defs>
+  <polyline class="st2" points="14.1 117.7 100 147.5 185.9 117.7 100 87.9"/>
+  <polygon class="st1" points="100 183.8 14.1 154 14.1 117.7 100 147.5 100 183.8"/>
+  <polygon class="st3" points="100 183.8 185.9 154 185.9 117.7 100 147.5 100 183.8"/>
+  <polygon class="st2" points="99.3 52.1 27.8 76.9 99.3 101.7 170.9 76.9 99.3 52.1"/>
+  <polygon class="st1" points="99.3 138 27.8 113.2 27.8 76.9 99.3 101.7 99.3 138"/>
+  <polygon class="st3" points="99.3 138 170.9 113.2 170.9 76.9 99.3 101.7 99.3 138"/>
+  <polygon class="st2" points="99.3 16.2 42.1 36.1 99.3 55.9 156.6 36.1 99.3 16.2"/>
+  <polygon class="st1" points="99.3 92.2 42.1 72.4 42.1 36.1 99.3 55.9 99.3 92.2"/>
+  <polygon class="st3" points="99.3 92.2 156.6 72.4 156.6 36.1 99.3 55.9 99.3 92.2"/>
+  <polygon class="st0" points="156.6 72 156.6 72.4 99.3 92.2 126.5 92.2 170.7 76.9 156.6 72"/>
+  <polygon class="st0" points="170.9 112.5 170.9 113.2 99.3 138 127.4 138 185.9 117.7 170.9 112.5"/>
+</svg>

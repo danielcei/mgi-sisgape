@@ -1,0 +1,188 @@
+# Main documentation: https://github.com/phpro/grumphp
+services:
+  SafeDeploy\Quality\Grump\Tasks\IdeHelperModelsTask:
+        arguments:
+            $processBuilder: '@process_builder'
+            $formatter: '@formatter.raw_process'
+        tags:
+            - { name: grumphp.task, task: ide_helper_models }
+
+grumphp:
+    process_timeout: null
+
+    # Extensions allow integrating additional tools with GrumPHP
+    # Laravel Pint extension docs: https://github.com/yieldstudio/grumphp-laravel-pint
+    extensions:
+        - YieldStudio\GrumPHPLaravelPint\ExtensionLoader
+
+    # Parallel execution settings - runs tasks concurrently for better performance
+    # https://github.com/phpro/grumphp/blob/master/doc/parameters.md
+    parallel:
+        enabled: true
+        # Set to number of CPU cores for optimal performance
+        max_workers: 8
+
+    # Task definitions - each task is a code quality check that will run during git hooks
+    # Tasks are ordered for optimal efficiency and logical flow
+    tasks:
+        # 1. QUICK SYNTAX CHECKS - Run these first for fast feedback
+
+        # JSON Linter validates JSON files
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/jsonlint.md
+        jsonlint:
+            ignore_patterns:
+                - "vendor/*"
+            # Check for duplicate keys
+            detect_key_conflicts: true
+
+        # YAML Linter validates YAML files
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/yamllint.md
+        yamllint:
+            ignore_patterns:
+                - "vendor/*"
+
+        # PHP Parser validates PHP syntax and checks for specific code constructs
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/phpparser.md
+        phpparser:
+            php_version: "8.4"  # Specifies PHP version for parsing
+            # We can create custom visitor. Check the docs.
+            visitors:
+                # Enforces if-return instead of if-else pattern
+                never_use_else: ~
+                # An error will be added if an exit statement is found
+                no_exit_statements: ~
+
+        # 2. DEPENDENCY & SECURITY CHECKS - Run these early to catch security issues
+
+        # Validates composer.json and checks dependencies
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/composer.md
+        composer:
+            # Return a non-zero exit code for warnings as well as errors
+            strict: true
+
+        # Security checker for composer dependencies
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/securitychecker/enlightn.md
+        securitychecker_enlightn: ~ # Uses defaults
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/securitychecker/roave.md
+        securitychecker_roave: ~ # Uses defaults
+
+        # 3. CODE STYLE & QUALITY CHECKS - Formatting and style issues
+
+        # Git Blacklist prevents committing debugging code
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/git_blacklist.md
+        git_blacklist:
+            keywords:  # Prohibited keywords that shouldn't be committed
+                - "die("
+                - "var_dump("
+                - "dump("
+                - "dd("
+                - "exit;"
+                - "exit("
+                - "console.log"
+            # Find the keywords ig they are words to avoid confusing "add(" with "dd("
+            match_word: true
+            triggered_by: [ "php", "js", "ts", "vue" ]
+            whitelist_patterns:
+                - /^public\/filament\/(.*)/
+
+        # 4. STATIC ANALYSIS & REFACTORING - Deeper code analysis
+
+        # Laravel IDE Helper adds docblocks to the models
+        # https://github.com/barryvdh/laravel-ide-helper
+        # ATTENTION: The environment you run the git commit must be able to access the DB from artisan
+        ide_helper_models: # Uses defaults. See \App\Domain\Quality\Grump\IdeHelperModelsTask
+            metadata:
+                priority: 500
+
+        # Laravel Pint code style fixer (runs before PHPCS to fix issues)
+        # https://github.com/yieldstudio/grumphp-laravel-pint
+        # You can use any CS-Fixer rules
+        # https://mlocati.github.io/php-cs-fixer-configurator/
+        # https://github.com/laravel/pint/blob/main/resources/presets/laravel.php
+        laravel_pint: # Uses defaults. See: pint.json
+          metadata:
+            priority: 400
+
+        # Rector for automated code upgrades and refactoring
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/rector.md
+        # https://getrector.com/documentation/
+        rector: ~ # Uses defaults. See: rector.php #TODO GET BACK TO rector.php
+
+        # PHPStan static analysis tool (runs after Rector to analyze refactored code)
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/phpstan.md
+        phpstan:
+            # PHPStan config file
+            configuration: ./phpstan.neon
+            # No memory limit for PHPStan
+            memory_limit: "-1"
+            # Use paths defined in PHPStan config file
+            use_grumphp_paths: false
+
+        # PHP Magic Number Detector
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/phpmnd.md
+        # https://github.com/povils/phpmnd
+        phpmnd:
+            exclude: [ "bootstrap", "config", "database", "storage", "tests", "vendor" ]
+            exclude_name: [ "_ide_helper.php", ".phpstorm.meta.php" ]
+            extensions: [ "all" ]
+            ignore_funcs: [ "array_splice" ]
+
+        # 5. AUTOMATED TESTS - Run tests after all code quality checks
+
+        # Pest PHP testing framework
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/pest.md
+        pest:
+            # Always run tests, even if no PHP files changed
+            always_execute: true
+
+        # 6. COMMIT MESSAGE CHECK - Always run last
+
+        # Git Commit Message enforces consistent commit messages
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/git_commit_message.md
+        # We are using Conventional Commits
+        # https://www.conventionalcommits.org/en/
+        git_commit_message:
+            # Do not allow empty commit messages
+            allow_empty_message: false
+            # First letter doesn't need to be capitalized
+            enforce_capitalized_subject: false
+            # No period at the end of subject
+            enforce_no_subject_trailing_period: true
+            # Subject should be a single line
+            enforce_single_lined_subject: true
+            # Max characters for subject line
+            max_subject_width: 72
+            # Max characters per line in body
+            max_body_width: 72
+            # Case-insensitive checks
+            case_insensitive: true
+            # Allow multiline commit messages
+            multiline: true
+            # Skips checking the commit message when the commit is a merge
+            skip_on_merge_commit: true
+            # Conventional commits format
+            type_scope_conventions:
+                # Allowed commit types
+                types:
+                    - feat
+                    - fix
+                    - docs
+                    - style
+                    - refactor
+                    - perf
+                    - test
+                    - build
+                    - ci
+                    - chore
+            matchers:
+                Must contain GitLab issue number: '/#\d+/'
+
+        # Enforces consistent branch names
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/git_branch_name.md
+        git_branch_name:
+            whitelist:
+                - '/^(?<username>[a-z0-9]+)\/task-(?<id>\d+)(?:-(?<extra>.*))?$/i'
+
+        # TODO https://github.com/phparkitect/arkitect
+        # https://github.com/phpro/grumphp/blob/master/doc/tasks/phparkitect.md
+

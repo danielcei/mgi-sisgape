@@ -1,0 +1,10 @@
+/* ;
+@import '/vendor/mvenghaus/filament-theme-os-light/resources/css/index.css';
+*/
+
+
+@import '/vendor/filament/filament/resources/css/theme.css';
+/*@import '../custom-theme3/css/index.css';*/
+
+
+@config 'tailwind.config.js';

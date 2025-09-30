@@ -1,0 +1,207 @@
+@use "sass:map";
+@import '/vendor/filament/filament/resources/css/theme.css';
+@config 'tailwind.config.js';
+
+/* Simple layout (Login, etc) */
+.fi-simple-layout {
+    max-width: 70vw;
+    margin-left: 70%;
+
+    .fi-body:has(&):before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 70vw;
+        height: 100vh;
+        background-image: linear-gradient(rgba(38, 59, 109, 0), rgba(38, 59, 109, 1)), url('./bg-site-login.png');
+        background-blend-mode: color;
+        background-size: cover;
+        background-position: right;
+        background-repeat: no-repeat;
+        z-index: -1;
+    }
+
+    @media (max-width: 1024px) {
+        .fi-body:has(&)::before {
+            width: 100vw;
+        }
+
+        & {
+            max-width: unset;
+            margin-left: 0;
+        }
+    }
+}
+
+/* Headers */
+.fi-page section {
+    @apply gap-y-4 !important;
+}
+.fi-header  > :last-child {
+    @apply mt-0 !important;
+}
+
+.fi-breadcrumbs {
+    @apply mb-1 !important;
+}
+
+.fi-header-heading {
+    @apply font-thin text-xl sm:text-2xl !important;
+}
+
+/* Topbar */
+.fi-main-ctn-sidebar-open .fi-topbar nav {
+    @apply -ml-28;
+}
+
+.fi-topbar {
+    @screen lg {
+        nav {
+            @apply pl-0;
+            .fi-global-search {
+                @apply mx-auto w-[50%] max-w-[600px];
+
+                & > div {
+                    @apply w-full;
+                }
+
+                .fi-input-wrp {
+                    @apply hover:bg-gray-50 focus-within:bg-gray-50 dark:hover:bg-white/10 dark:focus-within:bg-white/10;
+                }
+            }
+        }
+    }
+}
+
+[x-persist="topbar.end.panel-credanalise"] {
+}
+
+/* Sidebar navigation groups */
+$navigation: (
+    analise,
+    funcoes_e_permissoes,
+    administrativo,
+    associado,
+    faturamento,
+    venda,
+    simulador,
+);
+
+/* Sidebar */
+.fi-sidebar {
+    @each $name in $navigation {
+        $lightColor:  "[rgb(var(--nav-color-#{$name}-600))]";
+        $darkColor: "[rgb(var(--nav-color-#{$name}-400))]";
+
+        .#{$name} {
+            .fi-sidebar-group-icon,
+            .fi-sidebar-item-icon,
+            .fi-active .fi-sidebar-item-label,
+            .fi-dropdown-trigger svg,
+            .fi-dropdown-list-item-icon,
+            .fi-color-primary .fi-dropdown-list-item-label {
+                @apply text-#{$lightColor} dark:text-#{$darkColor} !important;
+            }
+
+            .fi-sidebar-group-items,
+            .fi-sidebar-group-items .fi-active,
+            .fi-dropdown-list-item-color-primary {
+                @apply border-l-#{$lightColor} dark:border-l-#{$darkColor} !important;
+            }
+        }
+    }
+
+    .fi-sidebar-nav {
+        @apply py-4 !important;
+    }
+
+    .fi-sidebar-nav-groups {
+        @apply gap-y-2 !important;
+    }
+
+    .fi-sidebar-item a {
+        @apply rounded-l-none !important;
+    }
+
+    .fi-sidebar-header {
+        @apply flex-row-reverse justify-end px-4 gap-x-4 !important;
+
+        & > div {
+            @apply transition-none opacity-100 !important;
+
+        }
+
+        button {
+            @apply ms-0 ml-0.5 mr-0.5 !important;
+        }
+    }
+
+    /* Dropdown */
+    .fi-dropdown-header {
+        @apply py-2 !important;
+    }
+
+    .fi-dropdown-header-label {
+        @apply uppercase text-center tracking-wide text-xs text-gray-400 !important;
+    }
+
+    .fi-dropdown-list {
+        @apply p-0 overflow-hidden rounded-b-lg !important;
+
+        .fi-dropdown-list-item {
+            @apply rounded-l-none !important;
+        }
+
+        .fi-dropdown-list-item-color-primary {
+            @apply border-l-4 pl-3 !important;
+        }
+
+        .fi-dropdown-list-item-color-gray {
+            @apply pl-4 !important;
+        }
+    }
+
+    &.fi-sidebar-open .fi-sidebar-group:not([data-group-label=""]) .fi-sidebar-group-items {
+        @apply border-l ml-[1.25rem];
+
+        .fi-sidebar-item:not(.fi-active) a {
+            @apply pl-4 !important;  /* rever: pulando */
+        }
+
+        .fi-active {
+            @apply border-l-4;
+
+            a {
+                @apply pl-3 !important;
+            }
+        }
+    }
+}
+
+/* Form aside */
+.fi-aside {
+    @apply lg:grid-cols-4 xl:grid-cols-5;
+
+    .fi-section-content-ctn {
+        @apply lg:col-span-3 xl:col-span-4;
+    }
+
+    & > .fi-section-header {
+        @apply md:pt-6;
+    }
+}
+
+/* Tables sticky header */
+.fi-ta-table thead {
+    @apply sticky !important;
+}
+
+/* override */
+.fi-in-repeatable-item .gap-6 {
+    gap: 0.5rem;
+}
+
+//.fi-in-repeatable-item .grid.gap-y-2 {
+//    gap: 0;
+//}

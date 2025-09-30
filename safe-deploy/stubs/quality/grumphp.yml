@@ -1,0 +1,15 @@
+# Main documentation: https://github.com/phpro/grumphp
+#
+# For more information, take a look at the file from SafeDeploy:
+# vendor/safe-deploy/safe-deploy/dist/grumphp.yml
+#
+# https://github.com/phpro/grumphp/blob/master/doc/conventions.md
+imports:
+    - { resource: "vendor/safe-deploy/safe-deploy/dist/grumphp.yml" }
+
+# If a specific task does not apply to your project, you can disable it like this:
+# grumphp:
+#     tasks:
+#         task_name:
+#             metadata:
+#                 enabled: false

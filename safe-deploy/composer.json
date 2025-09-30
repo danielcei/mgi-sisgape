@@ -1,0 +1,95 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "safe-deploy/safe-deploy",
+    "type": "library",
+    "description": "The Navicat security, productivity, and quality tool for PHP/Laravel/Filament projects.",
+    "keywords": [
+        "laravel",
+        "framework",
+        "filament",
+        "quality"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.4",
+        "codeat3/blade-line-awesome-icons": "^1.5",
+        "codeat3/blade-phosphor-icons": "^2.3",
+        "filament/filament": "^3.3",
+        "laravel/framework": "^12.0",
+        "laravel/tinker": "^2.10.1",
+        "lorisleiva/laravel-actions": "^2.9",
+        "owen-it/laravel-auditing": "^14.0",
+        "sentry/sentry-laravel": "^4.13",
+        "spatie/laravel-data": "^4.13",
+        "spatie/laravel-permission": "^6.16"
+    },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "^3.5",
+        "enlightn/security-checker": "^2.0",
+        "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.21",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.6",
+        "orchestra/testbench": "*",
+        "pestphp/pest": "^3.7",
+        "pestphp/pest-plugin-laravel": "^3.1",
+        "pestphp/pest-plugin-livewire": "^3.0",
+        "phpunit/phpunit": "^11.5.3",
+        "povils/phpmnd": "^3.6",
+        "rector/rector": "^2.0",
+        "roave/security-advisories": "dev-latest",
+        "yieldstudio/grumphp-laravel-pint": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SafeDeploy\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SafeDeploy\\SafeDeployServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare",
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"
+        ],
+        "post-update-cmd": [
+            "@php vendor/bin/testbench vendor:publish --tag=laravel-assets --ansi --force",
+            "@php vendor/bin/testbench ide-helper:generate",
+            "@php vendor/bin/testbench ide-helper:meta"
+        ],
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpro/grumphp": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

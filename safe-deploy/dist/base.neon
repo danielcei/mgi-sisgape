@@ -1,0 +1,15 @@
+parameters:
+    level: max
+
+    # Laravel specific
+    checkModelAppends: true
+    noModelMake: true
+    noUnnecessaryCollectionCall: true
+    noEnvCallsOutsideOfConfig: true
+    checkModelProperties: true
+
+services:
+    -
+        class: SafeDeploy\Quality\PHPStan\Rules\NoNestedArrayRule
+        tags:
+            - phpstan.rules.rule

@@ -1,0 +1,16 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - dist/base.neon
+
+parameters:
+    paths:
+        - src/
+        - config/
+        - workbench/
+
+    ignoreErrors:
+
+        -
+            # Ignore errors related to use of `env` in config files
+            message: "/Called 'env' outside of the config directory which returns null when the config is cached, use 'config'./"
+            path: config/*

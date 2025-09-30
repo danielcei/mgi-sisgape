@@ -1,0 +1,11 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ resource }};
+use SafeDeploy\Filament\Pages\BaseEditPage;
+
+class {{ resourcePageClass }} extends BaseEditPage
+{
+    protected static string $resource = {{ resourceClass }}::class;
+}

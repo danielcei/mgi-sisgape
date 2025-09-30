@@ -1,0 +1,29 @@
+@font-face {
+    font-family: 'Intro';
+    font-style: normal;
+    font-weight: normal;
+    font-display: auto;
+    src: url('fonts/Intro-Regular-Alt.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Intro';
+    font-style: normal;
+    font-weight: bold;
+    font-display: auto;
+    src: url('fonts/Intro-Bold-Alt2.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Intro';
+    font-style: normal;
+    font-weight: 900;
+    font-display: auto;
+    src: url('fonts/Intro-Black2.woff2') format('woff2');
+}
+@font-face {
+    font-family: 'Intro';
+    font-style: normal;
+    font-weight: 300;
+    font-display: auto;
+    src: url('fonts/Intro-Light-Alt2.woff2') format('woff2');
+}
+/* End Custom Fonts CSS */

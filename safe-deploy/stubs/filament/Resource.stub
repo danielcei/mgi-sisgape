@@ -1,0 +1,92 @@
+<?php
+
+namespace {{ namespace }};
+
+{{ clusterImport }}use {{ resource }}\Pages;
+use {{ resource }}\RelationManagers;
+use {{ model }};
+use Filament\Forms;
+use Filament\Forms\Form;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Override;
+
+class {{ resourceClass }} extends BaseResource
+{
+    protected static ?string $model = {{ modelClass }}::class;
+
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    protected static ?int $navigationSort = 1;
+
+    protected static ?string $recordTitleAttribute = 'id';
+
+    {{ clusterAssignment }}
+
+    #[\Override]
+    public static function formFields(): array
+    {
+        return [
+{{ formSchema }}
+        ];
+    }
+
+    #[Override]
+    public static function tableColumns(): array
+    {
+        return [
+{{ tableColumns }}
+        ];
+    }
+
+    #[Override]
+    public static function tableFilters(): array
+    {
+        return [
+{{ tableFilters }}
+        ];
+    }
+
+    #[Override]
+    public static function tableActions(): array
+    {
+        return [
+{{ tableActions }}
+        ];
+    }
+
+    #[Override]
+    public static function tableBulkActions(): array
+    {
+        return [
+{{ tableBulkActions }}
+        ];
+    }
+
+    {{ relations }}
+
+    #[Override]
+    public static function infolistEntries(): array
+    {
+        return [
+            TextEntry::make('name'),
+        ];
+    }{{ eloquentQuery }}
+
+    public static function getNavigationGroup(): string
+    {
+        return __('Group');
+    }
+
+    public static function getLabel(): string
+    {
+        return __('Resource');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('Resources');
+    }
+}

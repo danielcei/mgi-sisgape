@@ -1,0 +1,10 @@
+laravel: '@testbench'
+
+providers:
+  - SafeDeploy\SafeDeployServiceProvider
+
+workbench:
+  install: true
+  discovers:
+    config: true
+    factories: true

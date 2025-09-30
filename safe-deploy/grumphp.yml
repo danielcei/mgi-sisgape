@@ -1,0 +1,14 @@
+# Main documentation: https://github.com/phpro/grumphp
+#
+# We will use the same config as the projects using SafeDeploy.
+# For that, then, we load the config file from dist folder.
+#
+# https://github.com/phpro/grumphp/blob/master/doc/conventions.md
+imports:
+    - { resource: "dist/grumphp.yml" }
+
+grumphp:
+    tasks:
+        ide_helper_models:
+            metadata:
+                enabled: false
